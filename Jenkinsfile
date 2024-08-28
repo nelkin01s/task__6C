@@ -31,7 +31,7 @@ pipeline {
         stage('Code Analysis') {
             steps {
                 echo 'Analyzing the code...'
-              ?//  bat 'sonar-scanner'
+              //  bat 'sonar-scanner'
             }
         }
 
