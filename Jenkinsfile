@@ -21,8 +21,6 @@ pipeline {
                          subject: "Build Status",
                          body: "Build details here",
                          
-
-                }
             }
         }
 
@@ -46,7 +44,7 @@ pipeline {
                          body: "Build details here",
                          
 
-                }
+                
             }
         }
 
