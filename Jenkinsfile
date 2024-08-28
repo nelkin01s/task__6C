@@ -20,7 +20,7 @@ pipeline {
                     mail to: 'nelkineldho01@gmail.com',
                          subject: "Build Status",
                          body: "Build details here",
-                         attachLog: true // This is valid for the Email Extension Plugin
+                         
 
                 }
             }
@@ -44,7 +44,7 @@ pipeline {
                     mail to: 'nelkineldho01@gmail.com',
                          subject: "Build Status",
                          body: "Build details here",
-                         attachLog: true // This is valid for the Email Extension Plugin
+                         
 
                 }
             }
