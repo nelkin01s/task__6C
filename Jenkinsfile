@@ -24,16 +24,12 @@ pipeline {
                 always {
                     archiveArtifacts artifacts: '**/target/surefire-reports/*.xml', allowEmptyArchive: true
                     archiveArtifacts artifacts: '**/target/*.log', allowEmptyArchive: true
-                    script {
-                        def emailSubject = currentBuild.result == 'SUCCESS' ? "Build Success - Unit and Integration Tests" : "Build Failure - Unit and Integration Tests"
-                        def emailBody = "The unit and integration tests stage has completed. Please review the attached log file for details."
-                        emailext(
-                            to: 'nelkineldho01@gmail.com',
-                            subject: emailSubject,
-                            body: emailBody,
-                            attachmentsPattern: '**/target/*.log',
-                            mimeType: 'text/plain'
-                        )
+                    mail to: 'nelkineldho01@gmail.com',
+                         subject: "Build Status - Security Scan",
+                         body: "The security scan stage has completed. Please review the results."
+                         attachmentsPattern: '**/target/*.log',
+                         mimeType: 'text/plain'
+                        
                     }
                 }
             }
