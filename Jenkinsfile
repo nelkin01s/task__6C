@@ -18,9 +18,10 @@ pipeline {
                 always {
                     archiveArtifacts artifacts: '**/target/surefire-reports/*.xml', allowEmptyArchive: true
                     mail to: 'nelkineldho01@gmail.com',
-                         subject: "Jenkins Pipeline: Test Stage ${currentBuild.currentResult}",
-                         body: "The Test stage has ${currentBuild.currentResult}. Please find the attached logs.",
-                         attachLog: true
+                         subject: "Build Status",
+                         body: "Build details here",
+                         attachLog: true // This is valid for the Email Extension Plugin
+
                 }
             }
         }
@@ -41,9 +42,10 @@ pipeline {
                 always {
                     archiveArtifacts artifacts: '**/dependency-check-report.html', allowEmptyArchive: true
                     mail to: 'nelkineldho01@gmail.com',
-                         subject: "Jenkins Pipeline: Security Scan Stage ${currentBuild.currentResult}",
-                         body: "The Security Scan stage has ${currentBuild.currentResult}. Please find the attached logs.",
-                         attachLog: true
+                         subject: "Build Status",
+                         body: "Build details here",
+                         attachLog: true // This is valid for the Email Extension Plugin
+
                 }
             }
         }
