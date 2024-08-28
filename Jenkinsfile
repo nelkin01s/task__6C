@@ -17,7 +17,7 @@ pipeline {
             post {
                 always {
                     archiveArtifacts artifacts: '**/target/surefire-reports/*.xml', allowEmptyArchive: true
-                    mail to: 'your-email@example.com',
+                    mail to: 'nelkineldho01@gmail.com',
                          subject: "Jenkins Pipeline: Test Stage ${currentBuild.currentResult}",
                          body: "The Test stage has ${currentBuild.currentResult}. Please find the attached logs.",
                          attachLog: true
