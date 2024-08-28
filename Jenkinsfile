@@ -4,27 +4,25 @@ pipeline {
     tools {
         maven 'Maven' // Ensure this name matches what you configured in Jenkins
     }
-    
 
     stages {
         stage('Build') {
             steps {
                 echo 'Building the application...'
-                //bat 'mvn clean install'
+                bat 'mvn clean install'
             }
         }
 
         stage('Unit and Integration Tests') {
             steps {
                 echo 'Running unit and integration tests...'
-           //     bat 'mvn test'
+                bat 'mvn test'
             }
             post {
                 always {
+                    // Archive test results and logs
                     archiveArtifacts artifacts: '**/target/surefire-reports/*.xml', allowEmptyArchive: true
-                    mail to: 'nelkineldho01@gmail.com',
-                         subject: "Build Status - Unit and Integration Tests",
-                         body: "The unit and integration tests stage has completed. Please review the results."
+                    archiveArtifacts artifacts: '**/target/*.log', allowEmptyArchive: true
                 }
             }
         }
@@ -32,22 +30,21 @@ pipeline {
         stage('Code Analysis') {
             steps {
                 echo 'Analyzing the code...'
-              //  bat 'sonar-scanner'
+                // Example code analysis step
+                // bat 'sonar-scanner'
             }
         }
 
         stage('Security Scan') {
             steps {
                 echo 'Performing security scan...'
-                // 'dependency-check.bat --project Jenkins-CICD-Pipeline --scan .'
+                // Example security scan step
+                // bat 'dependency-check.bat --project Jenkins-CICD-Pipeline --scan .'
             }
             post {
                 always {
+                    // Archive security scan results
                     archiveArtifacts artifacts: '**/dependency-check-report.html', allowEmptyArchive: true
-                    mail to: 'nelkineldho01@gmail.com',
-                         subject: "Build Status - Security Scan",
-                         body: "The security scan stage has completed. Please review the results."
-                         
                 }
             }
         }
@@ -55,6 +52,7 @@ pipeline {
         stage('Deploy to Staging') {
             steps {
                 echo 'Deploying to staging...'
+                // Example deploy step
                 // bat 'scp target/app.jar ec2-user@staging-server:/app'
             }
         }
@@ -62,6 +60,7 @@ pipeline {
         stage('Integration Tests on Staging') {
             steps {
                 echo 'Running integration tests on staging...'
+                // Example integration test step
                 // bat 'mvn integration-test -Denv=staging'
             }
         }
@@ -69,25 +68,29 @@ pipeline {
         stage('Deploy to Production') {
             steps {
                 echo 'Deploying to production...'
-               //  bat 'scp target/app.jar ec2-user@production-server:/app'
+                // Example deploy step
+                // bat 'scp target/app.jar ec2-user@production-server:/app'
             }
         }
     }
 
     post {
-        success {
-            echo 'Pipeline completed successfully!'
-            mail to: 'nelkineldho01@gmail.com',
-                 subject: "Pipeline Success",
-                 body: "The pipeline completed successfully. Please review the attached log file for details.",
-                 attachmentsPattern: 'build.log'
-        }
-        failure {
-            echo 'Pipeline failed. Check the logs for details.'
-            mail to: 'nelkineldho01@gmail.com',
-                 subject: "Pipeline Failure",
-                 body: "The pipeline failed. Please review the attached log file for details.",
-                 attachmentsPattern: 'build.log'
+        always {
+            // Send email with logs attached
+            script {
+                def logFile = "${env.WORKSPACE}/build.log"
+                def emailSubject = currentBuild.result == 'SUCCESS' ? "Pipeline Success" : "Pipeline Failure"
+                def emailBody = "The pipeline ${currentBuild.result.toLowerCase()}. Please review the attached log file for details."
+                
+                // Send email with attachment
+                emailext (
+                    to: 'nelkineldho01@gmail.com',
+                    subject: emailSubject,
+                    body: emailBody,
+                    attachmentsPattern: '**/target/*.log',
+                    mimeType: 'text/plain'
+                )
+            }
         }
     }
 }
