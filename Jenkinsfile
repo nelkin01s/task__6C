@@ -5,14 +5,14 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the application...'
-                sh 'mvn clean install'
+                bat 'mvn clean install'
             }
         }
 
         stage('Unit and Integration Tests') {
             steps {
                 echo 'Running unit and integration tests...'
-                sh 'mvn test'
+                bat 'mvn test'
             }
             post {
                 always {
@@ -27,14 +27,14 @@ pipeline {
         stage('Code Analysis') {
             steps {
                 echo 'Analyzing the code...'
-                sh 'sonar-scanner'
+                bat 'sonar-scanner'
             }
         }
 
         stage('Security Scan') {
             steps {
                 echo 'Performing security scan...'
-                sh 'dependency-check.sh --project Jenkins-CICD-Pipeline --scan .'
+                bat 'dependency-check.bat --project Jenkins-CICD-Pipeline --scan .'
             }
             post {
                 always {
@@ -49,21 +49,21 @@ pipeline {
         stage('Deploy to Staging') {
             steps {
                 echo 'Deploying to staging...'
-                sh 'scp target/app.jar ec2-user@staging-server:/app'
+                bat 'scp target/app.jar ec2-user@staging-server:/app'
             }
         }
 
         stage('Integration Tests on Staging') {
             steps {
                 echo 'Running integration tests on staging...'
-                sh 'mvn integration-test -Denv=staging'
+                bat 'mvn integration-test -Denv=staging'
             }
         }
 
         stage('Deploy to Production') {
             steps {
                 echo 'Deploying to production...'
-                sh 'scp target/app.jar ec2-user@production-server:/app'
+                bat 'scp target/app.jar ec2-user@production-server:/app'
             }
         }
     }
