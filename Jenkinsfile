@@ -28,12 +28,11 @@ pipeline {
                          subject: "Build Status - Security Scan",
                          body: "The security scan stage has completed. Please review the results."
                          attachmentsPattern: '**/target/*.log',
-                         mimeType: 'text/plain'
                         
-                    }
                 }
             }
         }
+        
 
         stage('Code Analysis') {
             steps {
