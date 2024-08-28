@@ -47,6 +47,7 @@ pipeline {
                     mail to: 'nelkineldho01@gmail.com',
                          subject: "Build Status - Security Scan",
                          body: "The security scan stage has completed. Please review the results."
+                         attachmentsPattern: 'build.log'
                 }
             }
         }
