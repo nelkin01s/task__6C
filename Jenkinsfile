@@ -18,9 +18,10 @@ pipeline {
                 always {
                     archiveArtifacts artifacts: '**/target/surefire-reports/*.xml', allowEmptyArchive: true
                     mail to: 'nelkineldho01@gmail.com',
-                         subject: "Build Status",
-                         body: "Build details here",
-                         
+                         subject: "Build Status - Unit and Integration Tests",
+                         body: "The unit and integration tests stage has completed. Please review the results.",
+                         attachLog: true
+                }
             }
         }
 
@@ -40,11 +41,10 @@ pipeline {
                 always {
                     archiveArtifacts artifacts: '**/dependency-check-report.html', allowEmptyArchive: true
                     mail to: 'nelkineldho01@gmail.com',
-                         subject: "Build Status",
-                         body: "Build details here",
-                         
-
-                
+                         subject: "Build Status - Security Scan",
+                         body: "The security scan stage has completed. Please review the results.",
+                         attachLog: true
+                }
             }
         }
 
@@ -79,4 +79,3 @@ pipeline {
         }
     }
 }
-
