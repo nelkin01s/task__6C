@@ -47,7 +47,7 @@ pipeline {
                     mail to: 'nelkineldho01@gmail.com',
                          subject: "Build Status - Security Scan",
                          body: "The security scan stage has completed. Please review the results."
-                         attachmentsPattern: 'build.log'
+                         
                 }
             }
         }
@@ -77,9 +77,17 @@ pipeline {
     post {
         success {
             echo 'Pipeline completed successfully!'
+            mail to: 'nelkineldho01@gmail.com',
+                 subject: "Pipeline Success",
+                 body: "The pipeline completed successfully. Please review the attached log file for details.",
+                 attachmentsPattern: 'build.log'
         }
         failure {
             echo 'Pipeline failed. Check the logs for details.'
+            mail to: 'nelkineldho01@gmail.com',
+                 subject: "Pipeline Failure",
+                 body: "The pipeline failed. Please review the attached log file for details.",
+                 attachmentsPattern: 'build.log'
         }
     }
 }
